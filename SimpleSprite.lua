@@ -20,7 +20,8 @@ SimpleSprite = {
     local rotation = modifierTable.rotation or 0
     local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
     local isMirror = modifierTable.isMirror or false
-    return {positionX, positionY, width, height, rotation, color, isMirror}
+    local arr = {positionX, positionY, width, height, rotation, color, isMirror}
+    return arr
   end,
 
   show = function(self, modifierTable)
@@ -55,5 +56,12 @@ SimpleSprite = {
     self._imgTimer = 0
     self._isShowing = true
     self._shouldHide = false
+  end,
+
+  colorFactory = function(r, g, b, a)
+    local rr = r / 255
+    local gg = g / 255
+    local bb = b / 255
+    return Graphics.GL_Color(rr, gg, bb, a)
   end,
 }

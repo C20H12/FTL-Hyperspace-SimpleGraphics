@@ -1,7 +1,7 @@
 ---@class SimpleAnimatedSprite : SimpleSprite
 SimpleAnimatedSprite = SimpleSprite:new('null')
 
-SimpleAnimatedSprite._animTimer = 0
+SimpleAnimatedSprite._waitTimer = 0
 
 SimpleAnimatedSprite.new = function(self, imgName, frameCount, rows)
   local o = SimpleSprite.new(self, imgName)
@@ -71,16 +71,12 @@ end
 ---@override 
 SimpleAnimatedSprite.show = function(self, time, modifierTable)
   if not self._isShowing then
-    return
+    return true
   end
 
-  self._animTimer = self._animTimer + (Hyperspace.FPS.SpeedFactor / 16)
+  self._timer = self._timer + (Hyperspace.FPS.SpeedFactor / 16)
 
-  local currentFrameNumber = math.floor(self._animTimer * self.frameCount / time)
-
-  if currentFrameNumber > (self.frameCount * self.rows) then
-    self:hide()
-  end
+  local currentFrameNumber = math.floor(self._timer * self.frameCount / time)
 
   local modifierTable = modifierTable or {}
   local processedModifs = self:_processModifiers(modifierTable)
@@ -90,5 +86,29 @@ SimpleAnimatedSprite.show = function(self, time, modifierTable)
   else
     self:_renderMultilineAnim(currentFrameNumber, processedModifs)
   end
+
+  if currentFrameNumber >= (self.frameCount * self.rows) then
+    self._isShowing = false
+  end
+
+  return false
 end
 
+---@override
+SimpleAnimatedSprite.hide = function(self)
+  local isTimerInitialized = self._waitTimer ~= 0
+  if self._shouldHide or (not isTimerInitialized) then
+    self._isShowing = false
+    self._shouldHide = false
+  end
+end
+
+---@override
+SimpleAnimatedSprite.wait = function(self, sec)
+  if self._shouldHide then return end
+
+  self._waitTimer = self._waitTimer + (Hyperspace.FPS.SpeedFactor / 16)
+  if self._waitTimer > sec then
+    self._shouldHide = true
+  end
+end

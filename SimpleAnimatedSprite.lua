@@ -11,7 +11,6 @@ SimpleAnimatedSprite.new = function(self, imgName, frameCount, rows)
   return setmetatable(o, self)
 end
 
----@override
 SimpleAnimatedSprite._processModifiers = function(self, modifierTable)
   local width = modifierTable.width or (self._texture.width / self.frameCount)
   local height = modifierTable.height or (self._texture.height / self.rows)

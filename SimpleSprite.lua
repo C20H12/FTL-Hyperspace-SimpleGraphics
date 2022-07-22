@@ -56,6 +56,7 @@ SimpleSprite = {
       self._isShowing = false
       self._shouldHide = false
     end
+    return self._isShowing
   end,
   wait = function(self, sec)
     if not self._isShowing then 

@@ -138,7 +138,7 @@ Initiates a new Sprite. The image name does not need to include the file extensi
   | rr   | `number` | -- A number stating the amout of red (0 - 255). |
   | gg   | `number` | -- A number stating the amout of green (0 - 255). |
   | bb   | `number` | -- A number stating the amout of blue (0 - 255). |
-  | bb   | `number` | -- A number stating the amout of alpha (0 - 1). |
+  | aa   | `number` | -- A number stating the amout of alpha (0 - 1). |
 
   Processes the input and returns a color for use in shapes or filters on sprite images.
 

@@ -1,0 +1,7 @@
+<event name="TEST_LUA">
+  <text>Something Happens</text>
+  <choice>
+    <text>and eeeeeee</text>
+    <event/>
+  </choice>
+</event>

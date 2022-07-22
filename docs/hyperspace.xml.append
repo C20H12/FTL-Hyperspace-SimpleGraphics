@@ -1,0 +1,7 @@
+<version>1.1.1</version>
+
+<scripts>
+  <script>data/SimpleGraphics_dist_min.lua</script>
+  <!-- make sure to place it above your other scripts -->
+  <script>data/my_amazing_script.lua</script>
+</scripts>

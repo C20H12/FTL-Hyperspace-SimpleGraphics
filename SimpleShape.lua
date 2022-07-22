@@ -54,6 +54,30 @@ SimpleShape._renderTriangle = function(modifierTable)
   )
 end
 
+SimpleShape._renderLine = function(modifierTable)
+  local screenCenter = {1280 / 2, 720 / 2}
+  local width = modifierTable.width or 1
+  local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
+  
+  local points = {}
+  for i=1, 2 do
+    modifierTable["point" .. i] = modifierTable["point" .. i] or screenCenter
+    points[i] = {
+      screenCenter[1] + modifierTable["point" .. i][1], 
+      screenCenter[2] - modifierTable["point" .. i][2]
+    }
+  end
+
+  Graphics.CSurface.GL_DrawLine(
+    points[1][1],
+    points[1][2], 
+    points[2][1], 
+    points[2][2], 
+    width, 
+    color
+  )
+end
+
 ---@override
 SimpleShape.show = function(self, modifierTable)
 
@@ -65,8 +89,11 @@ SimpleShape.show = function(self, modifierTable)
     self._renderRect(modifierTable)
   elseif self.shape == "triangle" then
     self._renderTriangle(modifierTable)
+  elseif self.shape == "line" then
+    self._renderLine(modifierTable)
   else
     error("Unknown shape: " .. self.shape)
   end
   
-end 
+end
+

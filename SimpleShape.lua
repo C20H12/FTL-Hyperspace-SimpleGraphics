@@ -1,8 +1,8 @@
 ---@class SimpleShape : SimpleSprite
 SimpleShape = SimpleSprite:new("null")
 
-SimpleShape.new = function(self, shape)
-  local o = {shape = shape}
+SimpleShape.new = function(self, shape, sides)
+  local o = {shape = shape, sides = sides}
   self.__index = self
   return setmetatable(o, self)
 end
@@ -33,27 +33,6 @@ SimpleShape._renderRect = function(modifierTable)
   )
 end
 
-SimpleShape._renderTriangle = function(modifierTable)
-  local screenCenter = {1280 / 2, 720 / 2}
-  local points = {}
-
-  for i=1, 3 do
-    modifierTable["point" .. i] = modifierTable["point" .. i] or screenCenter
-    points[i] = Hyperspace.Point(
-      screenCenter[1] + modifierTable["point" .. i][1], 
-      screenCenter[2] - modifierTable["point" .. i][2]
-    )
-  end
-
-  local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
-  Graphics.CSurface.GL_DrawTriangle(
-    points[1],
-    points[2],
-    points[3],
-    color
-  )
-end
-
 SimpleShape._renderLine = function(modifierTable)
   local screenCenter = {1280 / 2, 720 / 2}
   local width = modifierTable.width or 1
@@ -78,6 +57,73 @@ SimpleShape._renderLine = function(modifierTable)
   )
 end
 
+SimpleShape._renderTriangle = function(self, modifierTable)
+  local screenCenter = {1280 / 2, 720 / 2}
+  local points = {}
+
+  for i=1, 3 do
+    modifierTable["point" .. i] = modifierTable["point" .. i] or screenCenter
+    points[i] = {
+      screenCenter[1] + modifierTable["point" .. i][1], 
+      screenCenter[2] - modifierTable["point" .. i][2]
+    }
+  end
+
+  local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
+  local borderColor = modifierTable.borderColor or Graphics.GL_Color(1, 1, 1, 1)
+  local borderWidth = modifierTable.borderWidth or 0
+
+  Graphics.CSurface.GL_DrawTriangle(
+    Hyperspace.Point(table.unpack(points[1])),
+    Hyperspace.Point(table.unpack(points[2])),
+    Hyperspace.Point(table.unpack(points[3])),
+    color
+  )
+  for i=1, 3 do
+    local point1 = points[i]
+    local point2 = points[i + 1] or points[1]
+    Graphics.CSurface.GL_DrawLine(
+      point1[1],
+      point1[2], 
+      point2[1], 
+      point2[2], 
+      borderWidth, 
+      borderColor
+    )
+  end
+end
+
+SimpleShape._renderPolygon = function(self, modifierTable)
+  local triangulated = Polygon:triangulatePoly(modifierTable.points)
+  local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
+  local borderColor = modifierTable.borderColor or Graphics.GL_Color(1, 1, 1, 1)
+  local borderWidth = modifierTable.borderWidth or 0
+
+  for i = 1, #triangulated do
+    local tri = triangulated[i]
+    local point1 = tri[1]
+    local point2 = tri[2]
+    local point3 = tri[3]
+    self:_renderTriangle({
+      point1 = point1,
+      point2 = point2,
+      point3 = point3,
+      color = color
+    })
+  end
+
+  for i = 1, #modifierTable.points do
+    local point1 = modifierTable.points[i]
+    local point2 = modifierTable.points[i + 1] or modifierTable.points[1]
+    self._renderLine({
+      point1 = point1,
+      point2 = point2,
+      width = borderWidth,
+      color = borderColor
+    })
+  end
+end
+
 ---@override
 SimpleShape.show = function(self, modifierTable)
 
@@ -88,12 +134,13 @@ SimpleShape.show = function(self, modifierTable)
   if self.shape == "rect" then
     self._renderRect(modifierTable)
   elseif self.shape == "triangle" then
-    self._renderTriangle(modifierTable)
+    self._renderTriangle(self, modifierTable)
   elseif self.shape == "line" then
     self._renderLine(modifierTable)
+  elseif self.shape == "polygon" then
+    self._renderPolygon(self, modifierTable)
   else
     error("Unknown shape: " .. self.shape)
   end
   
 end
-

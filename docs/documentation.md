@@ -59,6 +59,9 @@ The table that is passed to `show` methods in order to costomize the behavior of
   | point1 | `[number, number]` | -- The X, Y coordinates for the 1st vertice. |
   | point2 | `[number, number]` | -- The X, Y coordinates for the 2nd vertice. |
   | point3 | `[number, number]` | -- The X, Y coordinates for the  vertice. |
+  | color | `GL_Color`| -- The fill color of the triangle. |
+  | borderColor | `GL_Color` | -- The border color. |
+  | borderWidth | `number` | -- The border width. |
 
 - Line  
   `table`
@@ -66,6 +69,17 @@ The table that is passed to `show` methods in order to costomize the behavior of
   | --------- | -------- | -------------------------------------------------- |
   | point1 | `[number, number]` | -- The X, Y coordinates for the start point. |
   | point2 | `[number, number]` | -- The X, Y coordinates for the end point. |
+  | color | `GL_Color`| -- The color of the line. |
+  | width | `number`| -- The width of the line. |
+
+- Poly  
+  `table`
+  | Property | Type | |
+  | --------- | -------- | -------------------------------------------------- |
+  | points | `Array of [number, number]` | -- Array contianing the X, Y coordinates for all the vertices. |
+  | color | `GL_Color`| -- The fill color of the polygon. |
+  | borderColor | `GL_Color` | -- The border color. |
+  | borderWidth | `number` | -- The border width. |
 
 ---
 
@@ -354,7 +368,8 @@ Class containing functions for drawing shapes and lines.
 
 | Parameter | Type     |                                                                                         |
 | --------- | -------- | --------------------------------------------------------------------------------------- |
-| shape     | `string` | -- The name of the shape, only supports `"rect", "triangle", "line", "poly"` as of now. |
+| shape     | `string` | -- The name of the shape, only supports `"rect", "triangle", "line", "polyon"`. |
+| sides     | `number` | -- The amount of sides this shape has. Is optional. |
 
 Initiates a new shape sprite.
 
@@ -365,7 +380,12 @@ Initiates a new shape sprite.
 - shape  
   `string`
 
-  The type of shape passed into the constructor.
+  The type of shape passed into the constructor.  
+
+- sides  
+  `number`
+
+  Amount of sides this shape contains.
 
 - \_isShowing  
   _inherited from SimpleSprite_
@@ -420,6 +440,15 @@ Initiates a new shape sprite.
   | modifierTable | `ModifierTable.Line` | -- Table with the customizable properties. |
 
   Starts the displaying of the line.
+
+- \_renderPolygon  
+  _private_  
+  `_renderLine( modifierTable )`  
+  | Parameter | Type | |
+  | --------- | -------- | -------------------------------------------------- |
+  | modifierTable | `ModifierTable.Poly` | -- Table with the customizable properties. |
+
+  Triangulates the polygon, then starts the displaying of the polygon.
 
 - show  
   `show( time, modifierTable )`  

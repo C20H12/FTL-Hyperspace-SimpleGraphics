@@ -87,12 +87,12 @@ script.on_render_event(Defines.RenderEvents.LAYER_PLAYER,
 8. Now try and run the game again. Sprite `bacon` should show up for 5 seconds, then hide itself.
 
 9. One thing to beware of, is that `wait` does not pause the execution of the function. Therefore, they do not work as they seem to be inside loops. This is also because `on_render_event` callbacks runs many times per second, which means your loop is also ran many times.  
-  Loops can be used to show an amount of sprites at once, or hide them at once, but never a mixture of these actions.
+   Loops can be used to show an amount of sprites at once, or hide them at once, but never a mixture of these actions.
 
 ```lua
 -- this will only show up for 1 second:
 function()
-  for i=0, 10 do 
+  for i=0, 10 do
     bacon:show({Xalign = 100, Yalign = 100})
     bacon:wait(1)
     bacon:hide()
@@ -100,8 +100,10 @@ function()
   bacon:hide()
 end
 ```
-10. As mentioned, the looping nature of `on_render_event` callbacks can be used in our favour. You can use local variables outside of the callback to keep track of things, then increment/decrement them inside the function, allowings interesting interactions.   
-  For example, this will move the sprite to the top-right corner rapidly , then hide if it is out of sight.
+
+10. As mentioned, the looping nature of `on_render_event` callbacks can be used in our favour. You can use local variables outside of the callback to keep track of things, then increment/decrement them inside the function, allowings interesting interactions.  
+    For example, this will move the sprite to the top-right corner rapidly , then hide if it is out of sight.
+
 ```lua
 local x = 0
 local y = 0
@@ -119,8 +121,9 @@ script.on_render_event(Defines.RenderEvents.LAYER_PLAYER,
 ```
 
 11. In most cases, you will not want the sprite to show up right when the game starts, and rather when a certain event runs. Sprites provide a property `state` for this purpose. You can do a conditional check inside the callback for this property.  
-  It can also be toggled by calling the `toggleState()` method inside a `on_game_event` callback.   
-  The `state` is `off` by default.
+    It can also be toggled by calling the `toggleState()` method inside a `on_game_event` callback.  
+    The `state` is `off` by default.  
+    Note that the state does not effect the displaying of the sprite, it simply provides a mean to conditionally run the sprite's functions.
 
 ```lua
 script.on_game_event("TEST_LUA", false, function()
@@ -138,10 +141,56 @@ script.on_render_event(Defines.RenderEvents.LAYER_PLAYER,
   end
 )
 ```
+
+12. When a sprite has hidden, any subsequent `show` calls will not do anything. In the previous example, if `TEST_LUA` is ran again, nothing will display.  
+    To make sprites reusable, call `reset()` on the sprite. This needs to be done inside the state checking condition, otherwise it will reset the wait timer with every render.  
+    Lastly, to make sure the event turns off the sprite after it is ran, add a named nested event as well as a callback registered onto it.
+
+```xml
+<event name="TEST_LUA_2">
+  <text>Something Happens</text>
+  <choice>
+    <text>Continue</text>
+    <event name="TEST_LUA_2_END">
+      <text>and something else</text>
+      <choice>
+        <text>Continue</text>
+        <event></event>
+      </choice>
+    </event>
+  </choice>
+</event>
+```
+
+```lua
+script.on_game_event("TEST_LUA_2", false, function()
+  bacon:toggleState()
+end)
+
+script.on_game_event("TEST_LUA_2_END", false, function()
+  bacon:toggleState()
+end)
+
+script.on_render_event(Defines.RenderEvents.LAYER_PLAYER,
+  function() end,
+  function()
+    if bacon:getState() == "off" then
+      bacon:reset() -- resets timer and flags to initial
+      return
+    end -- skips the rest if off
+
+    bacon:show({Xalign = 100, Yalign = 100})
+    bacon:wait(5)
+    bacon:hide()
+  end
+)
+```
+
 #### End of quick start guide.
 
-___
+---
 
 ## More resources
+
 - [Full documentations](./docs/documentation.md)
-- [More examples from testing  (*cleanup needed*)](./simple_tests.lua)
+- [More examples from testing (_cleanup needed_)](./simple_tests.lua)

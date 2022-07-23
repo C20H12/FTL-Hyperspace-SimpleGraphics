@@ -5,3 +5,17 @@
     <event/>
   </choice>
 </event>
+
+<event name="TEST_LUA_2">
+  <text>Something Happens</text>
+  <choice>
+    <text>Continue</text>
+    <event name="TEST_LUA_2_END">
+      <text>and something else</text>
+      <choice>
+        <text>Continue</text>
+        <event></event>
+      </choice>
+    </event>
+  </choice>
+</event>

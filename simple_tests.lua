@@ -170,3 +170,15 @@
 --   function()
 --   end
 -- )
+
+-- local rick = SimpleAnimatedSprite:new("rick", 10, 4)
+
+-- script.on_render_event(Defines.RenderEvents.LAYER_PLAYER, 
+--   function() end, 
+--   function()
+--     rick:show(5, {
+--       Xalign = 100,
+--       Yalign = 100,
+--     })
+--   end
+-- )

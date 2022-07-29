@@ -295,7 +295,7 @@ local sus2 = {
   {-13, 54},
 }
 
-script.on_render_event(Defines.RenderEvents.LAYER_PLAYER, 
+script.on_render_event(Defines.RenderEvents.GUI_CONTAINER, 
   function() end,
   function()
     -- stopSign:show({

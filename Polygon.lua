@@ -28,12 +28,12 @@ Polygon = {
 
   -- Reverses the vertex winding
   polyReverse = function(pointsTable)
-    local numberOfPoints = #pointsTable
-    for i = 1, math.floor(numberOfPoints / 2) do
-      local iCountedBackwards = numberOfPoints - i + 1
-      pointsTable[i] = pointsTable[iCountedBackwards]
-      pointsTable[iCountedBackwards] = pointsTable[i]
+    local reversed = {}
+    local totalPoints = #pointsTable
+    for i = 1, totalPoints do
+      reversed[i] = pointsTable[totalPoints - i + 1]
     end
+    return reversed
   end,
 
   -- Finds twice the signed area of a triangle
@@ -95,7 +95,7 @@ Polygon = {
   -- Triangulates a counter-clockwise polygon
   triangulatePoly = function(self, pointsTable)
     if not self:isPolyCCW(pointsTable) then
-      self.polyReverse(pointsTable)
+      pointsTable = self.polyReverse(pointsTable)
     end
 
     local numberOfPoints = #pointsTable

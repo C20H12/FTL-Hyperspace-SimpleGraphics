@@ -8,8 +8,8 @@ SimpleSprite = {
 
   new = function(self, imgName)
     local o = {imgName = imgName}
+    o._texture = Hyperspace.Resources:GetImageId(imgName .. ".png")
     self.__index = self
-    self._texture = Hyperspace.Resources:GetImageId(imgName .. ".png")
     return setmetatable(o, self)
   end,
 

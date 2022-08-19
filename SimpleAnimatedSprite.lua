@@ -1,9 +1,10 @@
+local Polygon = mods.libs.SG.Polygon
 ---@class SimpleAnimatedSprite : SimpleSprite
-SimpleAnimatedSprite = SimpleSprite:new('null')
+mods.libs.SG.SimpleAnimatedSprite = mods.libs.SG.SimpleSprite:new('null')
 
-SimpleAnimatedSprite._animTimer = 0
+mods.libs.SG.SimpleAnimatedSprite._animTimer = 0
 
-SimpleAnimatedSprite.new = function(self, imgName, frameCount, rows)
+mods.libs.SG.SimpleAnimatedSprite.new = function(self, imgName, frameCount, rows)
   local o = SimpleSprite.new(self, imgName)
   o.frameCount = frameCount
   o.rows = rows or 1
@@ -11,7 +12,7 @@ SimpleAnimatedSprite.new = function(self, imgName, frameCount, rows)
   return setmetatable(o, self)
 end
 
-SimpleAnimatedSprite._processModifiers = function(self, modifierTable)
+mods.libs.SG.SimpleAnimatedSprite._processModifiers = function(self, modifierTable)
   local width = modifierTable.width or (self._texture.width / self.frameCount)
   local height = modifierTable.height or (self._texture.height / self.rows)
   local positionX = 1280 / 2 - width / 2 + (modifierTable.Xalign or 0)
@@ -22,7 +23,7 @@ SimpleAnimatedSprite._processModifiers = function(self, modifierTable)
   return arr
 end
 
-SimpleAnimatedSprite._renderAnim = function(self, currFrameNumber, pModifs)
+mods.libs.SG.SimpleAnimatedSprite._renderAnim = function(self, currFrameNumber, pModifs)
   local startFrame = currFrameNumber / self.frameCount
   local endFrame = (currFrameNumber + 1) / self.frameCount
 
@@ -42,7 +43,7 @@ SimpleAnimatedSprite._renderAnim = function(self, currFrameNumber, pModifs)
   )
 end
 
-SimpleAnimatedSprite._renderMultilineAnim = function(self, currFrameNumber, pModifs)
+mods.libs.SG.SimpleAnimatedSprite._renderMultilineAnim = function(self, currFrameNumber, pModifs)
   local currentRow = math.floor(currFrameNumber / self.frameCount)
   local currentColumn = currFrameNumber %  self.frameCount
 
@@ -67,7 +68,7 @@ SimpleAnimatedSprite._renderMultilineAnim = function(self, currFrameNumber, pMod
   )
 end
 
-SimpleAnimatedSprite.show = function(self, time, modifierTable)
+mods.libs.SG.SimpleAnimatedSprite.show = function(self, time, modifierTable)
   if not self._isShowing then
     return true
   end
@@ -93,7 +94,7 @@ SimpleAnimatedSprite.show = function(self, time, modifierTable)
 end
 
 ---@override
-SimpleAnimatedSprite.reset = function(self)
+mods.libs.SG.SimpleAnimatedSprite.reset = function(self)
   self._timer = 0
   self._animTimer = 0
   self._isShowing = true

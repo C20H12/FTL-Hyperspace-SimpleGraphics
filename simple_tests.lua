@@ -257,8 +257,8 @@ local pointsHexagon = {
 --   end
 -- )
 
-local stopSign = SimpleShape:new("polygon", 8)
-local tri = SimpleShape:new("triangle")
+-- local stopSign = SimpleShape:new("polygon", 8)
+-- local tri = SimpleShape:new("triangle")
 
 local pointsOctagon = {
   {100, 0},
@@ -295,34 +295,34 @@ local sus2 = {
   {-13, 54},
 }
 
-script.on_render_event(Defines.RenderEvents.GUI_CONTAINER, 
-  function() end,
-  function()
-    -- stopSign:show({
-    --   points = pointsOctagon,
-    --   color = SimpleSprite.colorFactory("ff0000ff"),
-    --   borderColor = SimpleSprite.colorFactory(207, 207, 207, 1),
-    --   borderWidth = 5
-    -- })
+-- script.on_render_event(Defines.RenderEvents.GUI_CONTAINER, 
+--   function() end,
+--   function()
+--     -- stopSign:show({
+--     --   points = pointsOctagon,
+--     --   color = SimpleSprite.colorFactory("ff0000ff"),
+--     --   borderColor = SimpleSprite.colorFactory(207, 207, 207, 1),
+--     --   borderWidth = 5
+--     -- })
 
-    -- tri:show({
-    --   point1 = {-100, -100},
-    --   point2 = {-200, -200},
-    --   point3 = {-300, -100},
-    --   color = SimpleSprite.colorFactory("ff0000ff"),
-    --   borderColor = SimpleSprite.colorFactory(207, 207, 207, 1),
-    --   borderWidth = 5
-    -- })
+--     -- tri:show({
+--     --   point1 = {-100, -100},
+--     --   point2 = {-200, -200},
+--     --   point3 = {-300, -100},
+--     --   color = SimpleSprite.colorFactory("ff0000ff"),
+--     --   borderColor = SimpleSprite.colorFactory(207, 207, 207, 1),
+--     --   borderWidth = 5
+--     -- })
 
-    SimpleShape:new("polygon"):show({
-      points = sus,
-      color = SimpleSprite.colorFactory("ff0000ff"),
-      borderWidth = 5
-    })
-    SimpleShape:new("polygon"):show({
-      points = sus2,
-      color = SimpleSprite.colorFactory("47a9ffff"),
-      borderWidth = 5
-    })
-  end
-)
+--     SimpleShape:new("polygon"):show({
+--       points = sus,
+--       color = SimpleSprite.colorFactory("ff0000ff"),
+--       borderWidth = 5
+--     })
+--     SimpleShape:new("polygon"):show({
+--       points = sus2,
+--       color = SimpleSprite.colorFactory("47a9ffff"),
+--       borderWidth = 5
+--     })
+--   end
+-- )

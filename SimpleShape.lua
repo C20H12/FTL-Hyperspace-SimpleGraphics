@@ -1,13 +1,13 @@
 ---@class SimpleShape : SimpleSprite
-SimpleShape = SimpleSprite:new("null")
+mods.libs.SG.SimpleShape = mods.libs.SG.SimpleSprite:new("null")
 
-SimpleShape.new = function(self, shape, sides)
+mods.libs.SG.SimpleShape.new = function(self, shape, sides)
   local o = {shape = shape, sides = sides}
   self.__index = self
   return setmetatable(o, self)
 end
 
-SimpleShape._renderRect = function(modifierTable)
+mods.libs.SG.SimpleShape._renderRect = function(modifierTable)
   local width = modifierTable.width or 0
   local height = modifierTable.height or 0
   local positionX = 1280 / 2 - width / 2 + (modifierTable.Xalign or 0)
@@ -33,7 +33,7 @@ SimpleShape._renderRect = function(modifierTable)
   )
 end
 
-SimpleShape._renderLine = function(modifierTable)
+mods.libs.SG.SimpleShape._renderLine = function(modifierTable)
   local screenCenter = {1280 / 2, 720 / 2}
   local width = modifierTable.width or 1
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
@@ -57,7 +57,7 @@ SimpleShape._renderLine = function(modifierTable)
   )
 end
 
-SimpleShape._renderTriangle = function(self, modifierTable)
+mods.libs.SG.SimpleShape._renderTriangle = function(self, modifierTable)
   local screenCenter = {1280 / 2, 720 / 2}
   local points = {}
 
@@ -93,7 +93,7 @@ SimpleShape._renderTriangle = function(self, modifierTable)
   end
 end
 
-SimpleShape._renderPolygon = function(self, modifierTable)
+mods.libs.SG.SimpleShape._renderPolygon = function(self, modifierTable)
   local triangulated = Polygon:triangulatePoly(modifierTable.points)
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
   local borderColor = modifierTable.borderColor or Graphics.GL_Color(1, 1, 1, 1)
@@ -125,7 +125,7 @@ SimpleShape._renderPolygon = function(self, modifierTable)
 end
 
 ---@override
-SimpleShape.show = function(self, modifierTable)
+mods.libs.SG.SimpleShape.show = function(self, modifierTable)
 
   if not self._isShowing then
     return

@@ -1,5 +1,5 @@
 ---@class Polygon static 
-Polygon = {
+mods.libs.SG.Polygon = {
   -- Reference https://2dengine.com/?p=polygons
 
   -- Finds twice the signed area of a polygon

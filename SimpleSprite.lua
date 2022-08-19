@@ -1,5 +1,5 @@
 ---@class SimpleSprite
-SimpleSprite = {
+mods.libs.SG.SimpleSprite = {
   _isShowing = true,
   _timer = 0,
   _shouldHide = false,

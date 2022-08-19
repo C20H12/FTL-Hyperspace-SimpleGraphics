@@ -39,6 +39,7 @@ Special thanks to <u>vertaalfout#3043</u> for providing with the first versions 
 3. Inside a script file, initiate a sprite by calling `new()`, then assigning it to a local variable. In the `new` constructor, pass in a string representing the path to your image, relative to the `img` folder of your mod. Be sure that the image is in `.png` format.
 
 ```lua
+local SimpleSprite = mods.libs.SG.SimpleSprite -- get the class from the "mods" global table
 local bacon = SimpleSprite:new("bacon") -- root/img/bacon.png
 ```
 

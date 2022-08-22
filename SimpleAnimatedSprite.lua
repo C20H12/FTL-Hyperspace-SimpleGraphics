@@ -5,7 +5,7 @@ mods.libs.SG.SimpleAnimatedSprite = mods.libs.SG.SimpleSprite:new('null')
 mods.libs.SG.SimpleAnimatedSprite._animTimer = 0
 
 mods.libs.SG.SimpleAnimatedSprite.new = function(self, imgName, frameCount, rows)
-  local o = SimpleSprite.new(self, imgName)
+  local o = mods.libs.SG.SimpleSprite.new(self, imgName)
   o.frameCount = frameCount
   o.rows = rows or 1
   self.__index = self

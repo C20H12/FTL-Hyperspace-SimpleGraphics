@@ -94,7 +94,7 @@ mods.libs.SG.SimpleShape._renderTriangle = function(self, modifierTable)
 end
 
 mods.libs.SG.SimpleShape._renderPolygon = function(self, modifierTable)
-  local triangulated = Polygon:triangulatePoly(modifierTable.points)
+  local triangulated = mods.libs.SG.Polygon:triangulatePoly(modifierTable.points)
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
   local borderColor = modifierTable.borderColor or Graphics.GL_Color(1, 1, 1, 1)
   local borderWidth = modifierTable.borderWidth or 0
@@ -143,4 +143,35 @@ mods.libs.SG.SimpleShape.show = function(self, modifierTable)
     error("Unknown shape: " .. self.shape)
   end
   
+end
+
+_G['Draw_Amongus'] = function() 
+  local sus = {
+    {154, -117}, {169, -270}, {259, -293},
+    {257, 86}, {151, 221}, {8, 226},
+    {-123, 108}, {-116, -273}, {-14, -282},
+    {-4, -120}}; 
+  local sus2 = {
+    {-14, 55}, {-15, 12}, {9, -24},
+    {118, -27}, {154, -4}, {153, 47},
+    {140, 79}, {27, 80}, {-13, 54}};
+  local SimpleShape = mods.libs.SG.SimpleShape;
+  local ColorFactory = mods.libs.SG.SimpleSprite.colorFactory;
+  script.on_render_event(Defines.RenderEvents.GUI_CONTAINER, 
+    function() end,
+    function()
+      SimpleShape:new("polygon"):show({
+        points = sus,
+        color = ColorFactory("ff0000ff"),
+        borderWidth = 5
+      })
+      SimpleShape:new("polygon"):show({
+        points = sus2,
+        color = ColorFactory("47a9ffff"),
+        borderWidth = 5
+      })
+
+      Graphics.freetype.easy_print(20, 400, 580, "GET SUS'ED LOL")
+    end
+  )
 end

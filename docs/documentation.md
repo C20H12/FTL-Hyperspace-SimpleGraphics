@@ -337,8 +337,8 @@ Initiates a new animated sprite. The image name does not need to include the fil
   Starts the displaying of the sprite. Shows sprite at screen center by default.  
   Will hide itself automatically after the animation is done.
 
-- hide  
-  `hide()`
+- hide   
+  `hide()`  
   _inherited from SimpleSprite_
 
 - wait  
@@ -459,7 +459,7 @@ Initiates a new shape sprite.
   Starts the displaying of the selected shape.
 
 - hide  
-  `hide()`
+  `hide()`  
   _inherited from SimpleSprite_
 
 - wait  
@@ -467,5 +467,5 @@ Initiates a new shape sprite.
   _inherited from SimpleSprite_
 
 - reset  
-  `reset()`
+  `reset()`  
   _inherited from SimpleSprite_

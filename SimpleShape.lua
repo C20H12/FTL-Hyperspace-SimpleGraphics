@@ -112,15 +112,17 @@ mods.libs.SG.SimpleShape._renderPolygon = function(self, modifierTable)
     })
   end
 
-  for i = 1, #modifierTable.points do
-    local point1 = modifierTable.points[i]
-    local point2 = modifierTable.points[i + 1] or modifierTable.points[1]
-    self._renderLine({
-      point1 = point1,
-      point2 = point2,
-      width = borderWidth,
-      color = borderColor
-    })
+  if borderWidth > 0 then
+    for i = 1, #modifierTable.points do
+      local point1 = modifierTable.points[i]
+      local point2 = modifierTable.points[i + 1] or modifierTable.points[1]
+      self._renderLine({
+        point1 = point1,
+        point2 = point2,
+        width = borderWidth,
+        color = borderColor
+      })
+    end
   end
 end
 

@@ -1,4 +1,3 @@
-local Polygon = mods.libs.SG.Polygon
 ---@class SimpleAnimatedSprite : SimpleSprite
 mods.libs.SG.SimpleAnimatedSprite = mods.libs.SG.SimpleSprite:new('null')
 

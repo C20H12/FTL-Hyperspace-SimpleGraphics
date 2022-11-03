@@ -4,7 +4,7 @@ mods.libs.SG = {
   version = "1.1",
   author = "C20H12untitled",
 }
----@class SimpleSprite
+---class SimpleSprite
 mods.libs.SG.SimpleSprite = {
   _isShowing = true,
   _timer = 0,
@@ -102,7 +102,7 @@ mods.libs.SG.SimpleSprite = {
     return Hyperspace.random32() % (max + 1 - min) + min
   end,
 }
----@class SimpleAnimatedSprite : SimpleSprite
+---class SimpleAnimatedSprite : SimpleSprite
 mods.libs.SG.SimpleAnimatedSprite = mods.libs.SG.SimpleSprite:new('null')
 
 mods.libs.SG.SimpleAnimatedSprite._animTimer = 0
@@ -334,7 +334,7 @@ mods.libs.SG.Polygon = {
     return out
   end
 }
----@class SimpleShape : SimpleSprite
+---class SimpleShape : SimpleSprite
 mods.libs.SG.SimpleShape = mods.libs.SG.SimpleSprite:new("null")
 
 mods.libs.SG.SimpleShape.new = function(self, shape, sides)

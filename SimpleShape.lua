@@ -7,11 +7,39 @@ mods.libs.SG.SimpleShape.new = function(self, shape, sides)
   return setmetatable(o, self)
 end
 
+---@override
+mods.libs.SG.SimpleShape._checkPos = function(self, x, y, screenCenterMode)
+  if screenCenterMode and ((x > 680 or x < -680) or (y > 360 or y < -360)) then
+    log(
+      string.format(
+        "[SG] WARNING: Shape %s contains a vertex that is too far from the screen center, it may be invisible. Current coordinates: %i, %i",
+        self.shape, x, y
+      )
+    )
+  elseif not screenCenterMode and ((x > 1280 or x < 0) or (y > 720 or y < 0)) then
+    log(
+      string.format(
+        "[SG] WARNING: Shape %s contains a vertex that is outside the screen, it may be invisible. Current coordinates: %i, %i",
+        self.shape, x, y
+      )
+    )
+  end
+end
+
 mods.libs.SG.SimpleShape._renderRect = function(modifierTable)
   local width = modifierTable.width or 0
   local height = modifierTable.height or 0
-  local positionX = 1280 / 2 - width / 2 + (modifierTable.Xalign or 0)
-  local positionY = 720 / 2 - height / 2 - (modifierTable.Yalign or 0)
+  
+  local useSC = modifierTable.useScreenCenter or true
+  local useIC = modifierTable.useImageCenter or true
+
+  local screenCenter = useSC and {1280 / 2, 720 / 2} or {0, 0}
+  local imageCenter = useIC and {width / 2, height / 2} or {0, 0}
+
+  local positionX = screenCenter[1] - imageCenter[1] + (modifierTable.Xalign or 0)
+  local positionY = screenCenter[2] - imageCenter[2] - (modifierTable.Yalign or 0)
+  self:_checkPos(positionX, positionY, useSC)
+  
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
   local borderColor = modifierTable.borderColor or Graphics.GL_Color(1, 1, 1, 1)
   local borderWidth = modifierTable.borderWidth or 0
@@ -34,17 +62,21 @@ mods.libs.SG.SimpleShape._renderRect = function(modifierTable)
 end
 
 mods.libs.SG.SimpleShape._renderLine = function(modifierTable)
-  local screenCenter = {1280 / 2, 720 / 2}
+  local useSC = modifierTable.useScreenCenter or true
+  local screenCenter = useSC and {1280 / 2, 720 / 2} or {0, 0}
   local width = modifierTable.width or 1
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
   
   local points = {}
   for i=1, 2 do
     modifierTable["point" .. i] = modifierTable["point" .. i] or screenCenter
+    local pointX = screenCenter[1] + modifierTable["point" .. i][1]
+    local pointY = screenCenter[2] - modifierTable["point" .. i][2]
     points[i] = {
-      screenCenter[1] + modifierTable["point" .. i][1], 
-      screenCenter[2] - modifierTable["point" .. i][2]
+      pointX, 
+      pointY
     }
+    self:_checkPos(pointX, pointY, useSC)
   end
 
   Graphics.CSurface.GL_DrawLine(
@@ -58,15 +90,19 @@ mods.libs.SG.SimpleShape._renderLine = function(modifierTable)
 end
 
 mods.libs.SG.SimpleShape._renderTriangle = function(self, modifierTable)
-  local screenCenter = {1280 / 2, 720 / 2}
+  local useSC = modifierTable.useScreenCenter or true
+  local screenCenter = useSC and {1280 / 2, 720 / 2} or {0, 0}
   local points = {}
 
   for i=1, 3 do
     modifierTable["point" .. i] = modifierTable["point" .. i] or screenCenter
+    local pointX = screenCenter[1] + modifierTable["point" .. i][1]
+    local pointY = screenCenter[2] - modifierTable["point" .. i][2]
     points[i] = {
-      screenCenter[1] + modifierTable["point" .. i][1], 
-      screenCenter[2] - modifierTable["point" .. i][2]
+      pointX, 
+      pointY
     }
+    self:_checkPos(pointX, pointY, useSC)
   end
 
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
@@ -142,10 +178,11 @@ mods.libs.SG.SimpleShape.show = function(self, modifierTable)
   elseif self.shape == "polygon" then
     self._renderPolygon(self, modifierTable)
   else
-    error("Unknown shape: " .. self.shape)
+    log("[SG] ERROR: Unknown shape: " .. self.shape)
   end
   
 end
+
 
 _G['Draw_Amongus'] = function() 
   local sus = {

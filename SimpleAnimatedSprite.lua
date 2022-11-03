@@ -14,8 +14,15 @@ end
 mods.libs.SG.SimpleAnimatedSprite._processModifiers = function(self, modifierTable)
   local width = modifierTable.width or (self._texture.width / self.frameCount)
   local height = modifierTable.height or (self._texture.height / self.rows)
-  local positionX = 1280 / 2 - width / 2 + (modifierTable.Xalign or 0)
-  local positionY = 720 / 2 - height / 2 - (modifierTable.Yalign or 0)
+
+  local useSC = modifierTable.useScreenCenter or true
+  local useIC = modifierTable.useImageCenter or true
+
+  local positionX = (useSC and (1280 / 2) or 0) - (useIC and (width / 2) or 0) + (modifierTable.Xalign or 0)
+  local positionY = (useSC and (720 / 2) or 0) - (useIC and (height / 2) or 0) - (modifierTable.Yalign or 0)
+
+  self:_checkPos(positionX, positionY, useSC)
+
   local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
   local isMirror = modifierTable.isMirror or false
   local arr = {positionX, positionY, width, height, color, isMirror}
@@ -67,8 +74,13 @@ mods.libs.SG.SimpleAnimatedSprite._renderMultilineAnim = function(self, currFram
   )
 end
 
-mods.libs.SG.SimpleAnimatedSprite.show = function(self, time, modifierTable)
+mods.libs.SG.SimpleAnimatedSprite.show = function(self, time, modifierTable) 
   if not self._isShowing then
+    return true
+  end
+
+  if not time then
+    log("[SG] ERROR: Must provide the animation time!")
     return true
   end
 

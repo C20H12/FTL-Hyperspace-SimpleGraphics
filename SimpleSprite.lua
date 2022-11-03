@@ -13,11 +13,39 @@ mods.libs.SG.SimpleSprite = {
     return setmetatable(o, self)
   end,
 
+  _checkPos = function(self, x, y, screenCenterMode)
+    if screenCenterMode and ((x > 680 or x < -680) or (y > 360 or y < -360)) then
+      log(
+        string.format(
+          "[SG] WARNING: Sprite %s is too far from the screen center, it may be invisible. Current coordinates: %i, %i",
+          self.imgName, x, y
+        )
+      )
+    elseif not screenCenterMode and ((x > 1280 or x < 0) or (y > 720 or y < 0)) then
+      log(
+        string.format(
+          "[SG] WARNING: Sprite %s is outside the screen, it may be invisible. Current coordinates: %i, %i",
+          self.imgName, x, y
+        )
+      )
+    end
+  end,
+
   _processModifiers = function(self, modifierTable)
     local width = modifierTable.width or self._texture.width
     local height = modifierTable.height or self._texture.height
-    local positionX = 1280 / 2 - width / 2 + (modifierTable.Xalign or 0)
-    local positionY = 720 / 2 - height / 2 - (modifierTable.Yalign or 0)
+
+    local useSC = modifierTable.useScreenCenter or true
+    local useIC = modifierTable.useImageCenter or true
+
+    local screenCenter = useSC and {1280 / 2, 720 / 2} or {0, 0}
+    local imageCenter = useIC and {width / 2, height / 2} or {0, 0}
+
+    local positionX = screenCenter[1] - imageCenter[1] + (modifierTable.Xalign or 0)
+    local positionY = screenCenter[2] - imageCenter[2] - (modifierTable.Yalign or 0)
+
+    self:_checkPos(positionX, positionY, useSC)
+
     local rotation = modifierTable.rotation or 0
     local color = modifierTable.color or Graphics.GL_Color(1, 1, 1, 1)
     local isMirror = modifierTable.isMirror or false
@@ -76,6 +104,7 @@ mods.libs.SG.SimpleSprite = {
     self._shouldHide = false
   end,
 
+  --static
   colorFactory = function(rOrHex, g, b, a)
     local rr, gg, bb, aa;
     if type(rOrHex) == "string" then

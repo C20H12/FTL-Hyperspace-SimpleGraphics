@@ -28,6 +28,8 @@ The table that is passed to `show` methods in order to costomize the behavior of
   | rotation | `number` | -- Degrees of rotation. |
   | color | `GL_Color` | -- The color filter that will apply to the image. |
   | isMirror | `boolean` | -- Should the image display mirrored? |
+  | useScreenCenter | `boolean` | -- Should the `Xalign` and `Yalign` properties use the screen center as (0,0)? Sprites will use the top left corner if false. Defaults to true` |
+  | useImageCenter | `boolean` | -- Should the X and Y coordinates use the image's center point as reference? Sprites will use the top left corner if false. Defaults to true` |
 
 - AnimatedSprite  
   `table`
@@ -39,6 +41,8 @@ The table that is passed to `show` methods in order to costomize the behavior of
   | Yalign | `number` | -- Amount of offset in the Y direction. |
   | color | `GL_Color` | -- The color filter that will apply to the image. |
   | isMirror | `boolean` | -- Should the image display mirrored? |
+  | useScreenCenter | `boolean` | -- Should the `Xalign` and `Yalign` properties use the screen center as (0,0)? Sprites will use the top left corner if false. Defaults to true` |
+  | useImageCenter | `boolean` | -- Should the X and Y coordinates use the image's center point as reference? Sprites will use the top left corner if false. Defaults to true` |
 
 - Rect  
   `table`
@@ -220,7 +224,7 @@ Initiates a new Sprite. The image name does not need to include the file extensi
   **Returns** `GL_Color`
 
 - randint  
-  _static_
+  _static_  
   `randint( min, max )`  
   | Parameter | Type | |
   | --------- | -------- | -------------------------------------------- |
@@ -296,7 +300,7 @@ Initiates a new animated sprite. The image name does not need to include the fil
   `getState()`  
   _inherited from SimpleSprite_
 
-- \_processModifiers  
+- _processModifiers  
   _private_  
   `_processModifiers( modifierTable )`
   | Parameter | Type | |
@@ -307,8 +311,8 @@ Initiates a new animated sprite. The image name does not need to include the fil
 
   **Returns** `Arrary of number | GL_Color | boolean`
 
-- _renderAnim
-  \_private_  
+- _renderAnim  
+  _private_  
   `_renderAnim( currFrameNumber, processedModifs )`
   | Parameter | Type | |
   | --------- | -------- | -------------------------------------------------- |
@@ -317,8 +321,8 @@ Initiates a new animated sprite. The image name does not need to include the fil
 
   Calculates the frame's location on the sprite sheet, and starts the rendering of a single frame to the screen.
 
-- _renderMultilineAnim
-  \_private_  
+- _renderMultilineAnim  
+  _private_  
   `_renderMultilineAnim( currFrameNumber, processedModifs )`
   | Parameter | Type | |
   | --------- | -------- | -------------------------------------------------- |

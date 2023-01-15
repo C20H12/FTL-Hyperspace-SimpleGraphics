@@ -203,7 +203,7 @@ mods.libs.SG.SimpleAnimatedSprite.reset = function(self)
   self._isShowing = true
   self._shouldHide = false
 end
----@class Polygon static 
+---class Polygon static 
 mods.libs.SG.Polygon = {
   -- Reference https://2dengine.com/?p=polygons
 

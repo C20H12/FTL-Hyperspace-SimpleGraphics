@@ -2,6 +2,9 @@
 
 A graphics library that simplifies drawing sprites on to the game screen.
 
+## This project is deprecated. This repo will be closed. You may still fork it for viewing and editing. The latest version is 1.1.3_dev.
+___
+
 ##### This library depends on the latest version of FTL Hyperapce to function, please install the latest extension files that enables Lua.
 
 ##### Install [FTL Hyperspace](https://github.com/FTL-Hyperspace/FTL-Hyperspace) or found in the [FTL-Multiverse Discord server](https://discord.com/channels/604415384979898464/865264119795941397/987189605080133682).
